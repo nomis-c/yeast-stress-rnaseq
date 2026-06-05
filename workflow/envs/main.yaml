@@ -1,0 +1,16 @@
+name: main
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - sra-tools
+  - fastp
+  - multiqc
+  - salmon=1.10.3
+  - r-base=4.3.3
+  - bioconductor-deseq2=1.42.0
+  - r-pheatmap=1.0.12
+  - bioconductor-tximport
+  - bioconductor-clusterprofiler
+  - bioconductor-org.sc.sgd.db
+  - r-ggplot2

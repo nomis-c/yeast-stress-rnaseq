@@ -1,0 +1,8 @@
+cdna_url: "https://ftp.ensemblgenomes.ebi.ac.uk/pub/fungi/release-58/fasta/saccharomyces_cerevisiae/cdna/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
+tx2gene_url: "https://ftp.ensemblgenomes.ebi.ac.uk/pub/fungi/release-58/tsv/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.58.uniprot.tsv.gz"
+
+samples: "samples.tsv"
+
+contrasts:
+  - "heat,control"

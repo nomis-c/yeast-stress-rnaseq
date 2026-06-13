@@ -1,0 +1,8 @@
+.snakemake
+*.out
+*.sh
+logs
+logs_slurm
+resources*
+results*
+tmp/

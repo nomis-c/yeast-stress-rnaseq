@@ -1,23 +1,14 @@
 rule fastp:
-    """
-    Trims adapters and low-quality bases from paired-end RNA-seq reads.
-
-    Key flags:
-      --detect_adapter_for_pe       -- auto-detect adapters
-      --qualified_quality_phred 20  -- discard bases with Q<20
-      --length_required 36          -- discard reads shorter than 36 bp
-      --correction                  -- correct mismatched bases in overlaps
-    """
     input:
-        left  = "data/rnaseq/{sample}_1.fastq",
-        right = "data/rnaseq/{sample}_2.fastq"
+        left  = rules.download_rnaseq.output.left,
+        right = rules.download_rnaseq.output.right
     output:
-        left  = "data/rnaseq_trimmed/{sample}_1.fastq",
-        right = "data/rnaseq_trimmed/{sample}_2.fastq",
+        left  = "results/rnaseq_trimmed/{sample}_1.fastq",
+        right = "results/rnaseq_trimmed/{sample}_2.fastq",
         json  = "results/qc/fastp/{sample}.json",
         html  = "results/qc/fastp/{sample}.html"
     conda:
-        "workflow/envs/main.yaml"
+        "../envs/env.yaml"
     threads: 4
     shell:
         """

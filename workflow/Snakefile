@@ -2,14 +2,14 @@ import pandas as pd
 
 configfile: "config/config.yaml"
 
-samples = pd.read_table(config["samples"], comment="#").set_index("sample")
+samples = pd.read_table(config["samples"], comment="#", sep=r"\s+").set_index("sample")
 
-include: "workflow/rules/download.smk"
-include: "workflow/rules/trimming.smk"
-include: "workflow/rules/assembly.smk"
-include: "workflow/rules/mapping.smk"
-include: "workflow/rules/expression.smk"
-include: "workflow/rules/multiqc.smk"
+include: "rules/download.smk"
+include: "rules/trimming.smk"
+include: "rules/mapping.smk"
+include: "rules/expression.smk"
+include: "rules/enrichment.smk"
+include: "rules/multiqc.smk"
 
 rule all:
     input:

@@ -4,11 +4,9 @@ rule multiqc:
                              sample=samples.index),
         salmon_dirs = expand("results/salmon/{sample}/quant.sf",
                              sample=samples.index),
-        fastqc_html = expand("results/qc/fastqc/{accession}_fastqc.html",
-                             accession=config["accession"])
     output:
         "results/qc/multiqc_report.html"
     conda:
-        "workflow/envs/main.yaml"
+        "../envs/env.yaml"
     shell:
         "multiqc results/ -o results/qc/ -n multiqc_report --force"

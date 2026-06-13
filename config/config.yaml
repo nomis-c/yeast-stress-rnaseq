@@ -1,0 +1,10 @@
+# Ensembl release 115 (September 2025), R64-1-1 assembly
+cdna_url: "https://ftp.ensembl.org/pub/release-115/fasta/saccharomyces_cerevisiae/cdna/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz"
+
+# Sample sheet with RNA-seq metadata
+samples: "resources/samples.tsv"
+
+# Differential expression contrasts: "condition_a,condition_b"
+# condition_a is the "treatment" (numerator), condition_b is the reference
+contrasts:
+  - "heat,control"

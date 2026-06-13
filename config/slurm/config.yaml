@@ -1,0 +1,19 @@
+cluster:
+  mkdir -p logs_slurm/{rule} &&
+  sbatch
+    --nodes={resources.nodes}
+    --cpus-per-task={resources.cpus}
+    --mem={resources.mem_gb}G
+    --time={resources.time}
+    --job-name=smk-{rule}-{wildcards}
+    --output=logs_slurm/{rule}/{rule}-{wildcards}-%j
+    --partition={resources.partition}
+    --no-requeue
+default-resources:
+    - time=720
+    - nodes=1
+    - ntasks=1
+    - mem_gb=8
+    - cpus=1
+    - partition=basic,gpu,himem,himemgpu
+restart-times: 3

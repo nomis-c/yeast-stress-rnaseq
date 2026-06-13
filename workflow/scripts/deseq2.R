@@ -2,15 +2,15 @@ library(DESeq2)
 library(tximport)
 library(pheatmap)
 
-quant_files  <- snakemake@input[["quant_files"]]
+quant_files <- snakemake@input[["quant_files"]]
 samples_file <- snakemake@input[["samples"]]
-outdir       <- snakemake@params[["outdir"]]
-sample_ids   <- snakemake@params[["sample_ids"]]
+outdir <- snakemake@params[["outdir"]]
+sample_ids <- snakemake@params[["sample_ids"]]
 
 dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
 
 # Load sample metadata
-samples <- read.table(samples_file, header = TRUE, comment.char = "#", sep = "\t")
+samples <- read.table(samples_file, header = TRUE, comment.char = "#")
 samples <- samples[, c("sample", "condition")]
 colnames(samples) <- c("Sample", "Condition")
 rownames(samples) <- samples$Sample
@@ -20,9 +20,9 @@ names(quant_files) <- sample_ids
 # Build tx2gene from first quant.sf
 # Ensembl fungi cDNA transcript IDs: YAL001C_mRNA -> gene YAL001C
 first_quant <- read.table(quant_files[1], header = TRUE, sep = "\t")
-tx_names    <- first_quant$Name
-tx2gene     <- data.frame(
-    tx_id   = tx_names,
+tx_names <- first_quant$Name
+tx2gene <- data.frame(
+    tx_id = tx_names,
     gene_id = sub("_[^_]+$", "", tx_names),
     stringsAsFactors = FALSE
 )
@@ -30,8 +30,8 @@ tx2gene     <- data.frame(
 # Import Salmon quantification
 txi <- tximport(
     quant_files,
-    type            = "salmon",
-    tx2gene         = tx2gene,
+    type = "salmon",
+    tx2gene = tx2gene,
     ignoreTxVersion = TRUE
 )
 
@@ -39,13 +39,13 @@ txi <- tximport(
 samples_ordered <- samples[colnames(txi$counts), ]
 
 dsdata <- DESeqDataSetFromTximport(
-    txi     = txi,
+    txi = txi,
     colData = samples_ordered,
-    design  = ~ Condition
+    design = ~ Condition
 )
 
 # Filter low-count genes: >=10 reads in >=2 samples
-keep   <- rowSums(counts(dsdata) >= 10) >= 2
+keep <- rowSums(counts(dsdata) >= 10) >= 2
 dsdata <- dsdata[keep, ]
 message(sprintf("Genes retained after low-count filtering: %d", sum(keep)))
 
@@ -54,7 +54,7 @@ rld <- rlog(dsdata, blind = FALSE)
 vst <- vst(dsdata,  blind = FALSE)
 
 # Sample-distance heatmap (VST)
-sampleDists      <- dist(t(assay(vst)))
+sampleDists <- dist(t(assay(vst)))
 sampleDistMatrix <- as.matrix(sampleDists)
 png(file.path(outdir, "sample_distance_heatmap.png"), width = 800, height = 600)
 pheatmap(

@@ -1,11 +1,9 @@
 rule multiqc:
     input:
-        fastp_json  = expand("results/qc/fastp/{sample}.json",
-                             sample=samples.index),
-        salmon_dirs = expand("results/salmon/{sample}/quant.sf",
-                             sample=samples.index),
+        fastp_json=expand("results/qc/fastp/{sample}.json", sample=samples.index),
+        salmon_dirs=expand("results/salmon/{sample}/quant.sf", sample=samples.index),
     output:
-        "results/qc/multiqc_report.html"
+        "results/qc/multiqc_report.html",
     conda:
         "../envs/env.yaml"
     shell:

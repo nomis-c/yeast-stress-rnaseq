@@ -1,12 +1,12 @@
 rule fastp:
     input:
-        left  = rules.download_rnaseq.output.left,
-        right = rules.download_rnaseq.output.right
+        left=rules.download_rnaseq.output.left,
+        right=rules.download_rnaseq.output.right,
     output:
-        left  = "results/rnaseq_trimmed/{sample}_1.fastq",
-        right = "results/rnaseq_trimmed/{sample}_2.fastq",
-        json  = "results/qc/fastp/{sample}.json",
-        html  = "results/qc/fastp/{sample}.html"
+        left="results/rnaseq_trimmed/{sample}_1.fastq",
+        right="results/rnaseq_trimmed/{sample}_2.fastq",
+        json="results/qc/fastp/{sample}.json",
+        html="results/qc/fastp/{sample}.html",
     conda:
         "../envs/env.yaml"
     threads: 4

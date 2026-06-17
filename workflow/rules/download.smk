@@ -1,14 +1,14 @@
 rule download_rnaseq:
     output:
-        left  = "resources/data/rnaseq/{sample}_1.fastq",
-        right = "resources/data/rnaseq/{sample}_2.fastq"
+        left="resources/data/rnaseq/{sample}_1.fastq",
+        right="resources/data/rnaseq/{sample}_2.fastq",
     params:
-        accession = lambda wc: samples.loc[wc.sample, "accession"]
+        accession=lambda wc: samples.loc[wc.sample, "accession"],
     conda:
         "../envs/env.yaml"
     threads: 4
     resources:
-        tmpdir = "tmp"
+        tmpdir="tmp",
     shell:
         """
         fasterq-dump {params.accession} -O resources/data/rnaseq/ \
@@ -21,9 +21,9 @@ rule download_rnaseq:
 
 rule download_cdna:
     output:
-        "resources/data/reference/cdna.fa"
+        "resources/data/reference/cdna.fa",
     params:
-        url = config["cdna_url"]
+        url=config["cdna_url"],
     conda:
         "../envs/env.yaml"
     shell:

@@ -1,8 +1,11 @@
 import pandas as pd
 
+
 configfile: "config/config.yaml"
 
+
 samples = pd.read_table(config["samples"], comment="#", sep=r"\s+").set_index("sample")
+
 
 include: "rules/download.smk"
 include: "rules/trimming.smk"
@@ -11,19 +14,22 @@ include: "rules/expression.smk"
 include: "rules/enrichment.smk"
 include: "rules/multiqc.smk"
 
+
+contrast = [c.replace(",", "_vs_") for c in config["contrasts"]]
+cutoffs = config["padj_cutoffs"]
+
+
 rule all:
     input:
-        # --- fastp trimming QC ---
         expand("results/qc/fastp/{sample}.html", sample=samples.index),
-        # --- Salmon quantification ---
         expand("results/salmon/{sample}/quant.sf", sample=samples.index),
-        # --- Aggregated QC ---
         "results/qc/multiqc_report.html",
-        # --- DESeq2 normalized counts ---
         "results/deseq2/rldm.tsv",
-        # --- Differential expression ---
-        expand("results/deseq2/{contrast}.tsv",
-               contrast=[c.replace(",", "_vs_") for c in config["contrasts"]]),
-        # --- GO enrichment ---
-        expand("results/enrichment/{contrast}_GO.tsv",
-               contrast=[c.replace(",", "_vs_") for c in config["contrasts"]]),
+        expand(
+            "results/deseq2/{contrast}_padj{padj}.tsv", contrast=contrast, padj=cutoffs
+        ),
+        expand(
+            "results/enrichment/{contrast}_padj{padj}_GO.tsv",
+            contrast=contrast,
+            padj=cutoffs,
+        ),

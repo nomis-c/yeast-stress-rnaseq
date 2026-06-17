@@ -19,13 +19,11 @@ rule differential_expression:
         dsdata=rules.deseq2_pca.output.dsdata,
         rldm=rules.deseq2_pca.output.rldm,
     output:
-        expand(
-            "results/deseq2/{contrast}.tsv",
-            contrast=[c.replace(",", "_vs_") for c in config["contrasts"]],
-        ),
+        "results/deseq2/{contrast}_padj{padj}.tsv",
     params:
-        contrasts=config["contrasts"],
         outdir="results/deseq2",
+        lfc_cutoff=config["lfc_cutoff"],
+        padj_cutoff="{padj}",
     conda:
         "../envs/env.yaml"
     script:

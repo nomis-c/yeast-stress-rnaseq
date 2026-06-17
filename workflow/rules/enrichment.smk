@@ -1,14 +1,11 @@
 rule go_enrichment:
     input:
-        de_results=rules.differential_expression.output,
+        de_results="results/deseq2/{contrast}_padj{padj}.tsv",
     output:
-        go_results=expand(
-            "results/enrichment/{contrast}_GO.tsv",
-            contrast=[c.replace(",", "_vs_") for c in config["contrasts"]],
-        ),
+        go_results="results/enrichment/{contrast}_padj{padj}_GO.tsv",
     params:
-        contrasts=config["contrasts"],
         outdir="results/enrichment",
+        padj_cutoff="{padj}",
     conda:
         "../envs/env.yaml"
     script:

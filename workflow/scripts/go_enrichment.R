@@ -59,7 +59,6 @@ if (length(gene_list) == 0) {
         }
 
     }, error = function(e) {
-        message("  GO enrichment failed: ", e$message)
-        write.table(data.frame(), file = go_tsv_path, sep = "\t", quote = FALSE)
+        stop("GO enrichment failed: ", e$message)
     })
 }

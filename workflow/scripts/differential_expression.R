@@ -1,7 +1,7 @@
 library(DESeq2)
 library(pheatmap)
 
-dsdata_file <- snakemake@input[["dsdata"]]
+dds_file <- snakemake@input[["dds"]]
 rldm_file <- snakemake@input[["rldm"]]
 outdir <- snakemake@params[["outdir"]]
 lfc_cutoff <- snakemake@params[["lfc_cutoff"]]
@@ -9,27 +9,24 @@ padj_cutoff <- as.numeric(snakemake@params[["padj_cutoff"]])
 
 dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
 
-dsdata <- readRDS(dsdata_file)
+dds <- readRDS(dds_file)
 rldm <- read.table(rldm_file, header = TRUE, row.names = 1)
-
-# Fit DESeq2 model once
-dds <- DESeq(dsdata)
 
 contrast_label <- snakemake@wildcards[["contrast"]]
 padj_label <- snakemake@wildcards[["padj"]]
+label <- paste0(contrast_label, "_padj", padj_label)
 
 parts <- strsplit(contrast_label, "_vs_")[[1]]
 cond_a <- parts[1]
 cond_b <- parts[2]
-label <- paste0(cond_a, "_vs_", cond_b, "_padj", padj_label)
 
 message("Processing contrast: ", label)
 
 res <- results(dds, contrast = c("Condition", cond_a, cond_b))
-resSig <- subset(res, padj <= padj_cutoff & log2FoldChange >= lfc_cutoff)
+resSig <- subset(res, padj <= padj_cutoff & abs(log2FoldChange) >= lfc_cutoff)
 
 write.table(as.data.frame(resSig),
-            file = file.path(outdir, paste0(label, ".tsv")),
+            file = snakemake@output[[1]],
             sep = "\t", quote = FALSE)
 
 message(sprintf("  Significant genes: %d", nrow(resSig)))

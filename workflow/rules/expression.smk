@@ -4,7 +4,7 @@ rule deseq2_pca:
         samples=config["samples"],
     output:
         rldm="results/deseq2/rldm.tsv",
-        dsdata="results/deseq2/dsdata.rds",
+        dds="results/deseq2/dds.rds",
     params:
         outdir="results/deseq2/plots",
         sample_ids=list(samples.index),
@@ -16,7 +16,7 @@ rule deseq2_pca:
 
 rule differential_expression:
     input:
-        dsdata=rules.deseq2_pca.output.dsdata,
+        dds=rules.deseq2_pca.output.dds,
         rldm=rules.deseq2_pca.output.rldm,
     output:
         "results/deseq2/{contrast}_padj{padj}.tsv",

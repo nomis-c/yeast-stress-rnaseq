@@ -26,6 +26,14 @@ tx2gene <- data.frame(
     gene_id = sub("_[^_]+$", "", tx_names),
     stringsAsFactors = FALSE
 )
+unmapped <- tx2gene$gene_id == tx2gene$tx_id
+if (any(unmapped)) {
+    warning(sprintf(
+        "%d transcript(s) have no underscore suffix and will use the full transcript name as gene ID: %s",
+        sum(unmapped),
+        paste(head(tx2gene$tx_id[unmapped], 5), collapse = ", ")
+    ))
+}
 
 # Import Salmon quantification
 txi <- tximport(
@@ -33,6 +41,12 @@ txi <- tximport(
     type = "salmon",
     tx2gene = tx2gene,
     ignoreTxVersion = TRUE
+)
+
+# Guard: all sample IDs from quant files must appear in the sample sheet
+stopifnot(
+    "Sample IDs in quant files do not match sample sheet" =
+        all(colnames(txi$counts) %in% rownames(samples))
 )
 
 # Build DESeqDataSet
@@ -49,9 +63,12 @@ keep <- rowSums(counts(dsdata) >= 10) >= 2
 dsdata <- dsdata[keep, ]
 message(sprintf("Genes retained after low-count filtering: %d", sum(keep)))
 
+# Fit model once here so downstream contrast/padj jobs only call results()
+dds <- DESeq(dsdata)
+
 # Transformations
-rld <- rlog(dsdata, blind = FALSE)
-vst <- vst(dsdata,  blind = FALSE)
+rld <- rlog(dds, blind = FALSE)
+vst <- vst(dds, blind = FALSE)
 
 # Sample-distance heatmap (VST)
 sampleDists <- dist(t(assay(vst)))
@@ -72,7 +89,7 @@ print(plotPCA(rld, intgroup = c("Sample", "Condition")))
 dev.off()
 
 png(file.path(outdir, "pca_unnormalized.png"), width = 800, height = 600)
-print(plotPCA(DESeqTransform(dsdata), intgroup = c("Sample", "Condition")))
+print(plotPCA(DESeqTransform(dds), intgroup = c("Sample", "Condition")))
 dev.off()
 
 # Export
@@ -80,5 +97,5 @@ rldm <- assay(rld)
 write.table(as.data.frame(rldm),
             file = snakemake@output[["rldm"]], sep = "\t", quote = FALSE)
 
-saveRDS(dsdata, file = snakemake@output[["dsdata"]])
+saveRDS(dds, file = snakemake@output[["dds"]])
 message("deseq2.R complete.")

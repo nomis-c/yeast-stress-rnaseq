@@ -1,6 +1,6 @@
 rule go_enrichment:
     input:
-        de_results="results/deseq2/{contrast}_padj{padj}.tsv",
+        de_results=rules.differential_expression.output[0],
     output:
         go_results="results/enrichment/{contrast}_padj{padj}_GO.tsv",
     params:

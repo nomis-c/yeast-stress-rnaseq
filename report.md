@@ -64,6 +64,7 @@ shifted toward larger insert sizes, indicating minor differences in library
 fragmentation for that replicate.
 
 ![Salmon Fragment Length Distribution](expected_results/quality_control/salmon_fragment_length_distribution.png)
+
 **Figure 4.** Salmon fragment length distribution inferred during
 quasi-mapping. The same outlier sample (orange) shows a lower and flatter
 peak compared to the other five samples. The agreement between fastp and
@@ -117,23 +118,27 @@ HSP104 (1.8). The repressed gene set was dominated by ribosomal protein genes
 including RPL9A, RPS22A, RPS0A, RPL30 and RPL7A.
 
 ![MA Plot](expected_results/differential_expression/heat_vs_control_padj0.0005_MA.png)
+
 **Figure 8.** MA plot showing log₂ fold change versus mean normalized
 expression. Significant DEGs are highlighted in blue. Triangles indicate
 genes beyond the plot limits (|log₂FC| > 4). The symmetric distribution
 around zero confirms no normalization bias.
 
 ![Top 10 by p-value](expected_results/differential_expression/heat_vs_control_padj0.0005_top10_pval.png)
+
 **Figure 9.** The 10 most statistically significant DEGs. Both strongly
 induced (HSP26, HSP12) and strongly repressed (URA1) genes are represented,
 reflecting the bidirectional nature of the heat shock response.
 
 ![Top 10 by fold change](expected_results/differential_expression/heat_vs_control_padj0.0005_top10_fc.png)
+
 **Figure 10.** The 10 genes with the highest log₂ fold change. All are
 strongly induced in heat samples, led by the chaperones HSP26 (log₂FC = 8.1)
 and HSP12 (log₂FC = 7.5), with a consistent pattern across all three
 replicates.
 
 ![Significant DEG Heatmap](expected_results/differential_expression/heat_vs_control_padj0.0005_heatmap_sig.png)
+
 **Figure 11.** Heatmap of all 1,293 significant DEGs (row-scaled). Two
 blocks are clearly visible: genes repressed by heat shock (upper, dominated
 by ribosomal proteins) and genes induced by heat shock (lower, enriched for
@@ -152,10 +157,12 @@ GO enrichment was performed on all 1,293 DEGs combined, yielding 62
 significant Biological Process terms at padj ≤ 0.0005.
 
 ![GO Barplot](expected_results/go_enrichment/heat_vs_control_padj0.0005_GO_barplot.png)
+
 **Figure 12.** Top 20 enriched GO terms ordered by gene count. All top terms
 relate to ribosome biogenesis and cytoplasmic translation.
 
 ![GO Cnetplot](expected_results/go_enrichment/heat_vs_control_padj0.0005_GO_cnetplot.png)
+
 **Figure 13.** Gene-concept network of the top 5 enriched GO terms. The
 large overlap between nodes reflects the coordinated nature of translational
 repression during heat stress.

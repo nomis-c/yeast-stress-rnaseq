@@ -42,7 +42,7 @@ Snakemake and available at github.com/nomis-c/yeast-stress-rnaseq.
 Raw read quality, trimming efficiency and mapping rates were assessed using
 `fastp` and `Salmon`, aggregated with `MultiQC`.
 
-![General Statistics](expected_results/quality_control/general_statistics.png)
+![General Statistics](example_results//quality_control/general_statistics.png)
 
 **Figure 1.** MultiQC general statistics table. Salmon mapping rates range
 from 80.7% to 83.5% across all six samples. Heat samples have slightly more
@@ -50,20 +50,20 @@ reads after filtering (48.0–52.1M) than controls (40.7–46.9M). GC content
 is uniformly ~42% and duplication rates range from 24–28%. Pass-filter rates
 exceed 99% in all samples.
 
-![Filtered Reads](expected_results/quality_control/fastp_filtered_reads.png)
+![Filtered Reads](example_results//quality_control/fastp_filtered_reads.png)
 
 **Figure 2.** Per-sample read counts after `fastp` filtering. Nearly all
 reads pass quality filters in every sample. Reads removed due to low quality,
 excessive N content or length violations are negligible.
 
-![Insert Size Distribution](expected_results/quality_control/fastp_insert_size_distribution.png)
+![Insert Size Distribution](example_results//quality_control/fastp_insert_size_distribution.png)
 
 **Figure 3.** Fastp insert size distribution. Five samples cluster tightly
 with a peak at ~170–190 bp. One sample (orange) shows a broader distribution
 shifted toward larger insert sizes, indicating minor differences in library
 fragmentation for that replicate.
 
-![Salmon Fragment Length Distribution](expected_results/quality_control/salmon_fragment_length_distribution.png)
+![Salmon Fragment Length Distribution](example_results//quality_control/salmon_fragment_length_distribution.png)
 
 **Figure 4.** Salmon fragment length distribution inferred during
 quasi-mapping. The same outlier sample (orange) shows a lower and flatter
@@ -81,20 +81,20 @@ after normalization.
 
 ### Sample Clustering
 
-![Normalized PCA](expected_results/differential_expression/pca_normalized.png)
+![Normalized PCA](example_results//differential_expression/pca_normalized.png)
 
 **Figure 5.** PCA of rlog-normalized expression values. PC1 (97% of
 variance) completely separates heat-shocked from control samples with no
 overlap.
 
-![Unnormalized PCA](expected_results/differential_expression/pca_unnormalized.png)
+![Unnormalized PCA](example_results//differential_expression/pca_unnormalized.png)
 
 **Figure 6.** PCA of raw unnormalized counts. The same condition separation
 is visible (PC1, 96% variance). The fragmentation outlier from Figures 3–4
 shows a pronounced PC2 offset in the raw data that disappears after
 normalization.
 
-![Sample Distance Heatmap](expected_results/differential_expression/sample_distance_heatmap.png)
+![Sample Distance Heatmap](example_results//differential_expression/sample_distance_heatmap.png)
 
 **Figure 7.** Sample-to-sample distance matrix (VST-transformed). Low 
 distances (blue) within conditions and high distances (red) between conditions
@@ -117,27 +117,27 @@ HSP26 (log₂FC = 8.1), HSP12 (7.5), CTT1 (4.2), SSA4 (3.0), TPS1 (2.3) and
 HSP104 (1.8). The repressed gene set was dominated by ribosomal protein genes
 including RPL9A, RPS22A, RPS0A, RPL30 and RPL7A.
 
-![MA Plot](expected_results/differential_expression/heat_vs_control_padj0.0005_MA.png)
+![MA Plot](example_results//differential_expression/heat_vs_control_padj0.0005_MA.png)
 
 **Figure 8.** MA plot showing log₂ fold change versus mean normalized
 expression. Significant DEGs are highlighted in blue. Triangles indicate
 genes beyond the plot limits (|log₂FC| > 4). The symmetric distribution
 around zero confirms no normalization bias.
 
-![Top 10 by p-value](expected_results/differential_expression/heat_vs_control_padj0.0005_top10_pval.png)
+![Top 10 by p-value](example_results//differential_expression/heat_vs_control_padj0.0005_top10_pval.png)
 
 **Figure 9.** The 10 most statistically significant DEGs. Both strongly
 induced (HSP26, HSP12) and strongly repressed (URA1) genes are represented,
 reflecting the bidirectional nature of the heat shock response.
 
-![Top 10 by fold change](expected_results/differential_expression/heat_vs_control_padj0.0005_top10_fc.png)
+![Top 10 by fold change](example_results//differential_expression/heat_vs_control_padj0.0005_top10_fc.png)
 
 **Figure 10.** The 10 genes with the highest log₂ fold change. All are
 strongly induced in heat samples, led by the chaperones HSP26 (log₂FC = 8.1)
 and HSP12 (log₂FC = 7.5), with a consistent pattern across all three
 replicates.
 
-![Significant DEG Heatmap](expected_results/differential_expression/heat_vs_control_padj0.0005_heatmap_sig.png)
+![Significant DEG Heatmap](example_results//differential_expression/heat_vs_control_padj0.0005_heatmap_sig.png)
 
 **Figure 11.** Heatmap of all 1,293 significant DEGs (row-scaled). Two
 blocks are clearly visible: genes repressed by heat shock (upper, dominated
@@ -153,34 +153,61 @@ in both conditions.
 
 ### GO Enrichment
 
-GO enrichment was performed on all 1,293 DEGs combined, yielding 62
-significant Biological Process terms at padj ≤ 0.0005.
+GO enrichment was run separately on the up- and down-regulated DEGs, against
+the set of expressed (low-count-filtered) genes as background. Splitting by
+direction keeps the resulting Biological Process terms interpretable: a
+combined enrichment is numerically dominated by the larger repressed set and
+obscures the induced response.
 
-![GO Barplot](expected_results/go_enrichment/heat_vs_control_padj0.0005_GO_barplot.png)
+![GO Barplot Down](example_results/go_enrichment/heat_vs_control_padj0.0005_GO_down_barplot.png)
 
-**Figure 12.** Top 20 enriched GO terms ordered by gene count. All top terms
-relate to ribosome biogenesis and cytoplasmic translation.
+**Figure 12.** Top 20 enriched BP terms for the 708 down-regulated genes
+(padj ≤ 0.0005). The repressed side yields [N_down] significant terms,
+overwhelmingly ribosome- and translation-related: cytoplasmic translation
+(padj ≈ 4.5×10⁻¹⁰²), ribosome biogenesis, ribonucleoprotein complex
+biogenesis, rRNA processing and ncRNA processing. This is the canonical
+rESR shutdown of growth and biosynthesis under stress.
 
-![GO Cnetplot](expected_results/go_enrichment/heat_vs_control_padj0.0005_GO_cnetplot.png)
+![GO Barplot Up](example_results/go_enrichment/heat_vs_control_padj0.0005_GO_up_barplot.png)
 
-**Figure 13.** Gene-concept network of the top 5 enriched GO terms. The
-large overlap between nodes reflects the coordinated nature of translational
-repression during heat stress.
+**Figure 13.** Top 20 enriched BP terms for the 585 up-regulated genes
+(padj ≤ 0.0005), giving [N_up] significant terms. The induced side is
+functionally broader and statistically weaker than the repressed side (top
+terms ~10⁻⁵ vs. ~10⁻¹⁰²). Leading terms are carbohydrate metabolic process,
+organonitrogen compound catabolic process, response to oxidative stress and
+trehalose metabolic process, alongside a prominent protein-catabolism block
+(protein catabolic process, proteasome-mediated ubiquitin-dependent
+catabolism).
 
-The enrichment is dominated by ribosome- and translation-related terms
-(cytoplasmic translation padj = 3.6×10⁻⁶⁸, ribosome biogenesis
-padj = 1.2×10⁻³⁰), driven by the 708 downregulated genes. This is expected:
-the repressed side of the ESR is numerically larger and produces stronger
-statistical signal. The induced side is still represented — trehalose
-metabolic process (padj = 3.7×10⁻⁶) is the clearest induced-side term,
-consistent with the role of trehalose in heat stress protection. A separate
-enrichment of only the upregulated genes would recover chaperone and protein
-folding terms more prominently, which is a straightforward extension of the
-current pipeline.
+The two directions recover the two arms of the ESR. The repressed arm is the
+textbook translational/ribosome-biogenesis shutdown and produces by far the
+stronger statistical signal — expected, since the down set is both larger and
+functionally coherent. The induced arm reproduces canonical Gasch iESR
+biology, but through metabolic, redox and catabolic terms (trehalose
+metabolism, oxidative stress response, carbohydrate reserve mobilisation,
+proteasomal degradation of damaged protein) rather than a "protein folding"
+label. This is a property of over-representation analysis: it is count-driven,
+and the canonical chaperones (HSP26, HSP12, HSP104, SSA4) are too few as a GO
+category to surface as a top term even though they carry the largest fold
+changes in the dataset (Figures 9–10). The chaperone response is therefore
+unambiguous at the gene level but does not dominate at the term level — the
+two views are complementary, not contradictory.
+
+![GO Cnetplot Down](example_results/go_enrichment/heat_vs_control_padj0.0005_GO_down_cnetplot.png)
+
+**Figure 14.** Gene-concept network of the top down-regulated terms. The
+dense overlap between translation and ribosome-biogenesis nodes reflects the
+coordinated, shared-gene nature of the repression programme.
+
+![GO Cnetplot Up](example_results/go_enrichment/heat_vs_control_padj0.0005_GO_up_cnetplot.png)
+
+**Figure 15.** Gene-concept network of the top up-regulated terms. Compared
+to the repressed side the induced terms are more modular, with carbohydrate
+and catabolic processes forming distinct, less-overlapping clusters.
 
 
 ## Interpretation
-The results confirm the hypothesis. The heat shock response is the dominant
+The results from this analysis confirm the hypothesis that the heat shock response is the dominant
 source of transcriptional variation (PC1, 97% of variance), and conditions
 separate completely at every level of analysis.
 
@@ -192,12 +219,20 @@ protein unfolding and oxidative damage under thermal stress.
 
 The repressed genes are equally consistent: ribosomal protein genes dominate
 the downregulated fraction, reflecting the well-known shutdown of growth and
-biosynthesis during stress. Because the repressed set is numerically larger
-(708 vs. 585 genes), it drives the GO enrichment results, where ribosome
-biogenesis and cytoplasmic translation terms dominate. This is expected
-behavior when enrichment is run on the combined DEG set; running it separately
-on upregulated genes would surface chaperone and protein folding terms more
-prominently.
+biosynthesis during stress. Running GO enrichment separately on each direction
+recovers both arms of the ESR cleanly. The repressed arm produces by far the
+stronger statistical signal (cytoplasmic translation, ribosome biogenesis and
+rRNA processing at padj down to ~10⁻¹⁰²), because the down set is both larger
+and functionally coherent. The induced arm is functionally broader and
+statistically weaker, and notably surfaces as metabolic, redox and catabolic
+terms — carbohydrate metabolism, oxidative stress response, trehalose
+metabolism and proteasomal protein catabolism — rather than an explicit
+"protein folding" label. This reflects how over-representation analysis works:
+it is count-driven, and the canonical chaperones, while carrying the largest
+fold changes in the entire dataset, are too small a GO category to dominate at
+the term level. The chaperone response is therefore unambiguous at the gene
+level (Figures 9–10) but does not surface as a top enriched term — a useful
+reminder that gene-level and term-level views answer different questions.
 
 The two padj thresholds (0.05 and 0.0005) produce qualitatively identical
 enrichment profiles, confirming the signal is robust and not dependent on a

@@ -29,4 +29,4 @@ snakemake -c 1 --profile config/slurm
 
 ## Results
 
-For a detailed report, please read `report.md`.
+For a detailed report, please read [report.md](report.md).

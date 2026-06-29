@@ -215,27 +215,28 @@ the *S. cerevisiae* heat shock response, reproducing the core ESR features
 described by Gasch et al. (2000) from an independent RNA-seq dataset.
 
 ## References
-Gasch AP et al. (2000). Genomic Expression Programs in the Response of Yeast Cells to Environmental Changes. Mol Biol Cell 11(12):4241–4257. 
+
+Ewels P et al. (2016). MultiQC: Summarize analysis results for multiple 
+tools and samples in a single report. Bioinformatics 32(19):3047–3048. 
+doi:10.1093/bioinformatics/btw354
+
+Gasch AP et al. (2000). Genomic expression programs in the response of yeast cells to environmental changes. Mol Biol Cell 11(12):4241–4257. 
 doi:10.1091/mbc.11.12.4241
 
-Serrano-Quílez J et al. (2025). Transcriptional memory dampens heat shock responses in yeast: functional role of Mip6 and its interaction with Rpd3. G3 15(8):jkaf144. 
-doi:10.1093/g3journal/jkaf144
-
-Love MI, Huber W, Anders S (2014). DESeq2: Moderated estimation of fold 
-change and dispersion for RNA-seq data. Genome Biology 15:550. 
+Love MI, Huber W, Anders S (2014). Moderated estimation of fold 
+change and dispersion for RNA-seq data with DESeq2. Genome Biology 15:550. 
 doi:10.1186/s13059-014-0550-8
 
 Patro R et al. (2017). Salmon provides fast and bias-aware quantification 
 of transcript expression. Nature Methods 14:417–419. 
 doi:10.1038/nmeth.4197
 
+Serrano-Quílez J et al. (2025). Transcriptional memory dampens heat shock responses in yeast: functional role of Mip6 and its interaction with Rpd3. G3 15(8):jkaf144. 
+doi:10.1093/g3journal/jkaf144
+
 Wu T et al. (2021). clusterProfiler 4.0: A universal enrichment tool for 
 interpreting omics data. The Innovation 2(3):100141. 
 doi:10.1016/j.xinn.2021.100141
-
-Ewels P et al. (2016). MultiQC: Summarize analysis results for multiple 
-tools and samples in a single report. Bioinformatics 32(19):3047–3048. 
-doi:10.1093/bioinformatics/btw354
 
 ## Acknowledgements
 

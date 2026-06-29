@@ -16,4 +16,5 @@ default-resources:
     - mem_gb=8
     - cpus=1
     - partition=basic,gpu,himem,himemgpu
+jobs: 10
 restart-times: 3

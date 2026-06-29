@@ -28,7 +28,8 @@ rule all:
             "results/deseq2/{contrast}_padj{padj}.tsv", contrast=contrast, padj=cutoffs
         ),
         expand(
-            "results/enrichment/{contrast}_padj{padj}_GO.tsv",
+            "results/enrichment/{contrast}_padj{padj}_GO_{direction}.tsv",
             contrast=contrast,
             padj=cutoffs,
+            direction=["up", "down"],
         ),

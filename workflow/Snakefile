@@ -6,6 +6,7 @@ configfile: "config/config.yaml"
 
 samples = pd.read_table(config["samples"], comment="#", sep=r"\s+").set_index("sample")
 
+
 include: "rules/download.smk"
 include: "rules/trimming.smk"
 include: "rules/mapping.smk"
@@ -28,7 +29,8 @@ rule all:
             "results/deseq2/{contrast}_padj{padj}.tsv", contrast=contrast, padj=cutoffs
         ),
         expand(
-            "results/enrichment/{contrast}_padj{padj}_GO.tsv",
+            "results/enrichment/{contrast}_padj{padj}_GO_{direction}.tsv",
             contrast=contrast,
             padj=cutoffs,
+            direction=["up", "down"],
         ),

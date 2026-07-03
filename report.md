@@ -159,6 +159,23 @@ genes reflect the well-known shutdown of ribosome biogenesis and translation
 during stress. The pattern is highly reproducible across all three replicates
 in both conditions.
 
+Gene symbols used in the text above map to the following systematic ORF
+identifiers shown in the heatmaps (`org.Sc.sgd.db` was queried directly for
+this mapping; `readable = FALSE` was used in `enrichGO` because no
+ORF→SYMBOL conversion path was available in this database version):
+
+| Symbol | ORF |
+|--------|---------|
+| HSP26  | YBR072W |
+| HSP12  | YFL014W |
+| CTT1   | YGR088W |
+| SSA4   | YER103W |
+| TPS1   | YBR126C |
+| HSP104 | YLL026W |
+| HSP78  | YDR258C |
+| TPS2   | YDR074W |
+| TSL1   | YML100W |
+| URA1   | YKL216W |
 
 ### GO Enrichment
 
